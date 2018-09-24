@@ -44,7 +44,7 @@ class Filters(object):
         filter = Filter._filter_registry[rule.id]
 
         # get the value returned in the filter instance
-        filter_operand = filter.func(self)
+        filter_operand = filter.func(rule.id)
 
         # check that the value is within the filter constraints
         if not filter.validate(filter_operand):
@@ -69,6 +69,7 @@ class FilterMeta(type):
 
     This does simple registration of operators based on Operator.handles
     '''
+
     def __new__(metacls, name, bases, attrs):
         cls = super(FilterMeta, metacls).__new__(metacls, name, bases, attrs)
 
@@ -108,7 +109,10 @@ class Filter(six.with_metaclass(FilterMeta, ToDictMixin)):
 
     _validation_functions = frozenset()
 
-    DICT_KEYS = ('id', 'type', 'field', 'label', 'description', 'optgroup', 'input', 'values', 'value_separator', 'default_value', 'input_event', 'size', 'rows', 'multiple', 'placeholder', 'vertical', 'validation', 'operators', 'plugin', 'plugin_config', 'data', 'valueSetter', 'valueGetter')
+    DICT_KEYS = (
+    'id', 'type', 'field', 'label', 'description', 'optgroup', 'input', 'values', 'value_separator', 'default_value',
+    'input_event', 'size', 'rows', 'multiple', 'placeholder', 'vertical', 'validation', 'operators', 'plugin',
+    'plugin_config', 'data', 'valueSetter', 'valueGetter')
 
     TO_PYTHON = None
 
